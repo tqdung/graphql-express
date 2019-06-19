@@ -8,6 +8,7 @@ export default `
     }
     type Query {
         getUserInfo: USER
+        getAllUser: [USER]
     }
     type Mutation {
         createUser: USER
