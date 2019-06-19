@@ -13,6 +13,7 @@ const getUserInfo = () => {
 }
 
 const createUser = async user => {
+    console.log(user);
     return new User({
         user,
         created: Date.now()

@@ -10,7 +10,7 @@ import schema from './graphql/index';
 import bodyParser from 'body-parser';
 
 mongoose.Promise = global.Promise;
-mongoose.connect(DATA_BASE.MONGO_DB_URI, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(DATA_BASE.MONGO_DB_URI, DATA_BASE.DB_OPTION);
 let db = mongoose.connection;
 
 const PORT = process.env.PORT || 3000;
