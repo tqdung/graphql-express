@@ -1,8 +1,8 @@
-import express from'express';
-import graphqlHTTP from'express-graphql';
+import express from 'express';
+import graphqlHTTP from 'express-graphql';
 // import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
-import cors from'cors';
+import cors from 'cors';
 import mongoose from 'mongoose';
 
 import { DATA_BASE } from './config';
@@ -24,10 +24,11 @@ db.once('open', () => {
   app.use(bodyParser({ limit: '50mb', extended: true }));
 
 
-  app.use('/graphql', graphqlHTTP({
+  app.use('/graphql', graphqlHTTP(async (request, response, graphQLParams) => ({
     schema: schema,
-    graphiql: true,
-  }));
+    rootValue: request.body.variables,
+    graphiql: true
+  })));
 
-  app.listen(PORT, ()=> console.log(`Server is running on port 3000`));
+  app.listen(PORT, () => console.log(`Server is running on port 3000`));
 });

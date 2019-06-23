@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -20,4 +23,17 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-module.exports = userSchema
+// Endcode password before saving it to data base
+userSchema.pre("save", function(next) {
+  // Encode the user password
+  bcrypt.genSalt(saltRounds, (function(err, salt) {
+    bcrypt.hash(this.password, salt, (function (err, hash) {
+      // save user to db
+      console.log("Password encode: ", hash);
+      this.password = hash;
+      next();
+    }).bind(this))
+  }).bind(this));
+});
+
+module.exports = userSchema;

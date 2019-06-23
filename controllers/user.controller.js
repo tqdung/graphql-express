@@ -1,23 +1,33 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 import userSchema from '../models/user_model';
-const User = mongoose.model('user', userSchema, 'user');
+const User = mongoose.model('users', userSchema, 'users');
 
-const getUserInfo = () => {
-    return {
-        id: '1',
-        email: 'abc@xyz.com',
-        phone_number: '0123456789',
-        name: 'Trần Quốc Dũng',
-        role: '1'
-    }
+const getUserInfo = async userInfo => {
+  const { email, password } = userInfo;
+  let user;
+  if (email) {
+      user = await User.findOne({ email: email });
+      let compare = bcrypt.compareSync(password, user.password);
+      if (compare) {
+        return user;
+      }
+      let err = new Error("Password is incorrect!");
+      err.status = 204;
+      throw err;
+  }
+  return null;
 }
 
 const createUser = async user => {
-    console.log(user);
-    return new User({
-        user,
-        created: Date.now()
+  const { username, email, password } = user;
+  let newUser = new User(
+    {
+      ...user,
+      created: Date.now()
     });
+  await newUser.save();
+  return newUser;
 }
 
 const getAllUser = () => {
