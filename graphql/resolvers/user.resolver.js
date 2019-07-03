@@ -1,10 +1,10 @@
 import UserController from '../../controllers/user.controller';
 export default {
     Query: {
-        getUserInfo: (email, password) => UserController.getUserInfo(email, password),
+        getUserInfo: (email) => UserController.getUserInfo(email),
         getAllUser: () => UserController.getAllUser(),
     },
     Mutation: {
-        createUser: (username, email, password) => UserController.createUser(username, email, password)
+        createUser: (email, username, password, phone_number) => UserController.createUser(email, username, password, phone_number)
     }
 }

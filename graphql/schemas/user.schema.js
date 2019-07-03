@@ -2,16 +2,16 @@ export default `
     type USER {
         id: String
         email: String
-        password: String
+        username: String
         phone_number: String
-        name: String
-        role: Int
+        role: String
+        created: String
     }
     type Query {
-        getUserInfo(email: String, password: String): USER
+        getUserInfo(email: String): USER
         getAllUser: [USER]
     }
     type Mutation {
-        createUser(username: String, email: String, password: String): USER
+        createUser(email: String, username: String, password: String, phone_number: String): USER
     }
 `
